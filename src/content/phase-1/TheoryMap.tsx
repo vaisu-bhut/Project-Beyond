@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { ChapterDivider } from "@/components/book/ChapterDivider";
+import NeuralNetworkComponents from "./Chapter3";
 
 const ACCENT = "--accent-p1";
 
@@ -16,14 +17,14 @@ const ACCENT = "--accent-p1";
 
 const STYLES = `
   .p1-root {
-    /* Map the original tokens onto our dark theme variables. */
+    /* Map the original tokens onto our theme variables. */
     --bg: transparent;
-    --bg-elev: rgba(255, 255, 255, 0.04);
-    --bg-sunken: rgba(255, 255, 255, 0.02);
+    --bg-elev: var(--background-elevated);
+    --bg-sunken: var(--background-soft);
     --ink: var(--foreground);
-    --ink-2: rgba(231, 233, 238, 0.85);
+    --ink-2: color-mix(in oklab, var(--foreground) 85%, transparent);
     --ink-3: var(--foreground-muted);
-    --rule: rgba(255, 255, 255, 0.08);
+    --rule: var(--border);
     --indigo: #a78bfa;
     --indigo-soft: rgba(167, 139, 250, 0.16);
     --amber: #fbbf24;
@@ -61,10 +62,10 @@ const STYLES = `
 
   .p1-btn {
     font-family: var(--sans); font-size: 12px; padding: 6px 12px;
-    background: rgba(255,255,255,0.03); border: 1px solid var(--rule);
+    background: var(--background-soft); border: 1px solid var(--rule);
     color: var(--ink-2); border-radius: 6px; cursor: pointer; transition: all 0.15s;
   }
-  .p1-btn:hover { background: rgba(255,255,255,0.06); color: var(--ink); border-color: rgba(255,255,255,0.18); }
+  .p1-btn:hover { background: var(--border); color: var(--ink); border-color: var(--border-strong); }
   .p1-btn-active { background: var(--ink); color: var(--background); border-color: var(--ink); }
   .p1-btn-active:hover { background: var(--ink); color: var(--background); }
 
@@ -1215,9 +1216,9 @@ function GradientDescentSection() {
               const x = xMap(t);
               const y = yMap(lossFn(t));
               const op = 0.15 + 0.5 * (i / Math.max(trail.length, 1));
-              return <circle key={i} cx={x} cy={y} r="3" fill="var(--amber)" opacity={op} />;
+              return <circle key={i} cx={x.toFixed(2)} cy={y.toFixed(2)} r="3" fill="var(--amber)" opacity={op.toFixed(2)} />;
             })}
-            <circle cx={xMap(theta)} cy={yMap(lossFn(theta))} r="8" fill="var(--amber)" stroke="var(--background)" strokeWidth="2" />
+            <circle cx={xMap(theta).toFixed(2)} cy={yMap(lossFn(theta)).toFixed(2)} r="8" fill="var(--amber)" stroke="var(--background)" strokeWidth="2" />
           </svg>
         </div>
 
@@ -1345,7 +1346,7 @@ function AdamSection() {
               const x = xPlot(t);
               const h = (g / gNormBars) * 30;
               const y = 45 - h;
-              return <rect key={t} x={x - 2} y={Math.min(45, y)} width="4" height={Math.abs(h)} fill="var(--ink-3)" opacity="0.85" />;
+              return <rect key={t} x={(x - 2).toFixed(2)} y={Math.min(45, y).toFixed(2)} width="4" height={Math.abs(h).toFixed(2)} fill="var(--ink-3)" opacity="0.85" />;
             })}
           </svg>
         </div>
@@ -1556,7 +1557,7 @@ function BiasVarianceSection() {
             <path d={truthD} fill="none" stroke="var(--teal)" strokeWidth="2" strokeDasharray="4 4" />
             <path d={fitD} fill="none" stroke="var(--indigo)" strokeWidth="2" />
             {data.map((d, i) => (
-              <circle key={i} cx={xMap(d.x)} cy={yMap(d.y)} r="3.5" fill="var(--amber)" />
+              <circle key={i} cx={xMap(d.x).toFixed(2)} cy={yMap(d.y).toFixed(2)} r="3.5" fill="var(--amber)" />
             ))}
           </svg>
         </div>
@@ -1709,6 +1710,7 @@ export default function Phase1TheoryMap() {
       <AdamSection />
       <BiasVarianceSection />
       <SynthesisSection />
+      <NeuralNetworkComponents />
     </div>
   );
 }

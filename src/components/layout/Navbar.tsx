@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Navbar() {
   return (
@@ -34,6 +35,9 @@ export function Navbar() {
           >
             Appendix
           </Link>
+          <div className="ml-2 pl-2 border-l border-border">
+            <ThemeToggle />
+          </div>
         </nav>
       </div>
     </header>

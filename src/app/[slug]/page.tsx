@@ -26,10 +26,10 @@ export default async function PhasePage({
     <>
       <PhaseHeader node={node} />
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-8 py-12 md:py-16">
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-8 py-12 md:py-16">
         <div className="grid md:grid-cols-[260px_1fr] lg:grid-cols-[300px_1fr] xl:grid-cols-[320px_1fr] gap-12 lg:gap-16 xl:gap-20">
           <aside className="hidden md:block">
-            <div className="sticky top-16 max-h-[calc(100vh-5rem)] overflow-y-auto pr-3 py-2">
+            <div className="sticky top-16 max-h-[calc(100vh-5rem)] overflow-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pr-3 py-2">
               <BookSidebar sections={node.sections} accentVar={node.accentVar} />
             </div>
           </aside>

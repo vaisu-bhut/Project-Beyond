@@ -13,6 +13,14 @@ export function BookSidebar({ sections, accentVar }: Props) {
   const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!active) return;
+    const el = document.getElementById(`nav-${active}`);
+    if (el) {
+      el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+  }, [active]);
+
+  useEffect(() => {
     const ids: string[] = ["overview"];
     for (const sec of sections) {
       ids.push(sec.id);
@@ -154,6 +162,7 @@ function Row({
   const isSub = depth === 2;
   return (
     <a
+      id={`nav-${id}`}
       href={`#${id}`}
       className={cn(
         "group block transition-colors -ml-px border-l",
