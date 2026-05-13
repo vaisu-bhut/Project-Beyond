@@ -1,26 +1,182 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #05060a;
+  --background-soft: #0b0d14;
+  --background-elevated: #11141d;
+  --foreground: #e7e9ee;
+  --foreground-muted: #9aa0ad;
+  --border: #1d2030;
+  --border-strong: #2a2f44;
+
+  --accent-p1: #a78bfa;
+  --accent-p2: #60a5fa;
+  --accent-p3: #22d3ee;
+  --accent-p4: #34d399;
+  --accent-p5: #fbbf24;
+  --accent-p6: #fb7185;
+  --accent-p7: #2dd4bf;
+  --accent-bA: #818cf8;
+  --accent-bB: #e879f9;
+  --accent-bC: #facc15;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-soft: var(--background-soft);
+  --color-background-elevated: var(--background-elevated);
   --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(167, 139, 250, 0.12), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(34, 211, 238, 0.08), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 10% 30%, rgba(96, 165, 250, 0.08), transparent 60%),
+    var(--background);
+  background-attachment: fixed;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle grid background overlay */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Glass card */
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-strong {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 40%, #22d3ee 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background-soft);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a4060;
+}
+
+/* KaTeX tweaks for dark mode */
+.katex {
+  color: var(--foreground);
+  font-size: 1.05em;
+}
+.katex-display {
+  margin: 0.8em 0;
+  padding: 0.6em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Code blocks */
+pre,
+code {
+  font-family: var(--font-mono), ui-monospace, "SF Mono", monospace;
+}
+pre {
+  background: var(--background-soft);
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+:not(pre) > code {
+  background: rgba(167, 139, 250, 0.1);
+  color: #c4b5fd;
+  padding: 0.12em 0.4em;
+  border-radius: 0.3em;
+  font-size: 0.88em;
+  border: 1px solid rgba(167, 139, 250, 0.2);
+}
+
+/* Pulse animation */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Slow rotate */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.spin-slow {
+  animation: spin-slow 30s linear infinite;
+}
+
+/* Fade-in for sections */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  animation: fade-up 0.7s ease-out backwards;
+}
+
+/* Link styles */
+.link-accent {
+  color: var(--accent-p2);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.link-accent:hover {
+  color: var(--accent-p3);
+}
+
+/* Selection */
+::selection {
+  background: rgba(167, 139, 250, 0.35);
+  color: white;
 }
