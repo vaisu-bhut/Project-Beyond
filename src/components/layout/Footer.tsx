@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="mt-32 border-t border-white/[0.06]">
+    <footer className="mt-32 border-t border-foreground/[0.08]">
       <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <p className="font-semibold tracking-tight">

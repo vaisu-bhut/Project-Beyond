@@ -42,7 +42,7 @@ function Para({ children }: any) {
 
 function Callout({ label, children }: any) {
   return (
-    <div className="p2-glass" style={{ borderLeft: `3px solid ${S.blue}`, padding: '16px 20px', margin: '24px 0', borderRadius: '0 12px 12px 0' }}>
+    <div className="p2-glass p2-callout" style={{ borderLeft: `3px solid ${S.blue}`, padding: '16px 20px', margin: '24px 0', borderRadius: '0 12px 12px 0' }}>
       <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600, color: S.blue, marginBottom: 6, fontFamily: 'var(--mono)' }}>{label}</div>
       <div style={{ fontSize: 14.5, color: S.ink2, lineHeight: 1.6 }}>{children}</div>
     </div>
@@ -52,8 +52,8 @@ function Callout({ label, children }: any) {
 function VisualCard({ children, caption }: any) {
   return (
     <div style={{ margin: '28px 0' }}>
-      <div className="p2-glass" style={{ borderRadius: 16, padding: '28px 24px' }}>{children}</div>
-      {caption && <div style={{ fontSize: 12, color: S.ink3, fontStyle: 'italic', marginTop: 10, textAlign: 'center', maxWidth: 720, margin: '10px auto 0', lineHeight: 1.6, padding: '0 16px' }}>{caption}</div>}
+      <div className="p2-glass p2-visual-card" style={{ borderRadius: 16, padding: '28px 24px' }}>{children}</div>
+      {caption && <div style={{ fontSize: 12, color: S.ink3, fontStyle: 'italic', marginTop: 10, textAlignment: 'center', maxWidth: 720, margin: '10px auto 0', lineHeight: 1.6, padding: '0 16px' }}>{caption}</div>}
     </div>
   );
 }
@@ -269,7 +269,7 @@ function ParametersVisual() {
 
 export default function SectionMLP() {
   return (
-    <Section id="mlp" eyebrow="1.3 · Inside the MLP" title="Inside the MLP" kicker="The pink block inside every transformer is a multi-layer perceptron. To understand it, you only need four pieces — vectors, weights, biases, and the count of parameters they form together.">
+    <Section id="mlp" eyebrow="1.6 · Inside the MLP" title="Inside the MLP" kicker="The pink block inside every transformer is a multi-layer perceptron. To understand it, you only need four pieces — vectors, weights, biases, and the count of parameters they form together.">
       <Sub title="A vector">
         <Para>Everything that flows through a neural network is a vector — an ordered list of numbers. The input is a vector, every hidden layer's activations are a vector, the output is a vector. The dimensionality (how long the list is) is what people mean when they say "d_model = 4096".</Para>
         <VectorVisual />

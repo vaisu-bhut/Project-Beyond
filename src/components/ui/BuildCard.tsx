@@ -21,9 +21,9 @@ export function BuildCard({
   children,
 }: Props) {
   return (
-    <div className="glass rounded-2xl overflow-hidden group hover:border-white/20 transition-all">
+    <div className="glass rounded-2xl overflow-hidden group hover:border-foreground/20 transition-all">
       <div
-        className="px-6 py-4 border-b border-white/[0.06] flex items-center justify-between"
+        className="px-6 py-4 border-b border-foreground/[0.08] flex items-center justify-between"
         style={{ background: `color-mix(in oklab, var(${accentVar}) 8%, transparent)` }}
       >
         <div className="flex items-center gap-4">

@@ -105,7 +105,7 @@ export function BookSidebar({ sections, accentVar, hideOverview }: Props) {
                             {ch.title}
                           </span>
                         </div>
-                        <ul className="border-l border-white/[0.06] ml-3 mt-1">
+                        <ul className="border-l border-foreground/[0.08] ml-3 mt-1">
                           {ch.subchapters.map((sub) => (
                             <li key={sub.id}>
                               <Row

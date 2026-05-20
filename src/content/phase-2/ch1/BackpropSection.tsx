@@ -46,7 +46,7 @@ function Para({ children }: any) {
 
 function Callout({ label, children }: any) {
   return (
-    <div className="p2-glass" style={{ borderLeft: `3px solid ${S.blue}`, padding: '16px 20px', margin: '24px 0', borderRadius: '0 12px 12px 0' }}>
+    <div className="p2-glass p2-callout" style={{ borderLeft: `3px solid ${S.blue}`, padding: '16px 20px', margin: '24px 0', borderRadius: '0 12px 12px 0' }}>
       <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600, color: S.blue, marginBottom: 6, fontFamily: 'var(--mono)' }}>{label}</div>
       <div style={{ fontSize: 14.5, color: S.ink2, lineHeight: 1.6 }}>{children}</div>
     </div>
@@ -56,8 +56,8 @@ function Callout({ label, children }: any) {
 function VisualCard({ children, caption }: any) {
   return (
     <div style={{ margin: '28px 0' }}>
-      <div className="p2-glass" style={{ borderRadius: 16, padding: '28px 24px' }}>{children}</div>
-      {caption && <div style={{ fontSize: 12, color: S.ink3, fontStyle: 'italic', marginTop: 10, textAlign: 'center', maxWidth: 720, margin: '10px auto 0', lineHeight: 1.6, padding: '0 16px' }}>{caption}</div>}
+      <div className="p2-glass p2-visual-card" style={{ borderRadius: 16, padding: '28px 24px' }}>{children}</div>
+      {caption && <div style={{ fontSize: 12, color: S.ink3, fontStyle: 'italic', marginTop: 10, textAlignment: 'center', maxWidth: 720, margin: '10px auto 0', lineHeight: 1.6, padding: '0 16px' }}>{caption}</div>}
     </div>
   );
 }
@@ -463,7 +463,7 @@ function LossCurveVisual() {
 
 export default function SectionBackprop() {
   return (
-    <Section id="backprop" eyebrow="1.4 · Backpropagation" title="Backpropagation — how the parameters get learned" kicker="An untrained MLP outputs garbage. Backpropagation is the algorithm that turns garbage into competence by gradually adjusting every weight and every bias.">
+    <Section id="backprop" eyebrow="1.7 · Backpropagation" title="Backpropagation — how the parameters get learned" kicker="An untrained MLP outputs garbage. Backpropagation is the algorithm that turns garbage into competence by gradually adjusting every weight and every bias.">
       <Para>
         Learning is a three-step loop repeated trillions of times: <em>predict, measure, correct</em>. Backpropagation encompasses this entire sequence. First, a <strong>forward pass</strong> feeds inputs through layers to produce a prediction. Second, a <strong>loss function</strong> measures how wrong that prediction was compared to the target. Finally, a <strong>backward pass</strong> applies the chain rule of calculus in reverse to calculate gradients, letting the optimizer nudge each weight and bias toward correctness.
       </Para>

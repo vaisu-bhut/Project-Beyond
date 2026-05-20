@@ -47,7 +47,7 @@ export function NotesSection({ children, accentVar = "--accent-p2" }: Props) {
             {children}
           </div>
         ) : (
-          <div className="text-sm text-foreground-muted italic leading-relaxed border-l-2 border-white/10 pl-4">
+          <div className="text-sm text-foreground-muted italic leading-relaxed border-l-2 border-foreground/10 pl-4">
             Write your summary, key takeaways, links to your repos, code snippets, or
             anything you want to remember here. Edit the <code>NotesSection</code> children
             in this file.

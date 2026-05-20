@@ -36,7 +36,7 @@ export function SectionHeading({ eyebrow, title, description, accentVar, childre
 export function SubHeading({ children, accentVar }: { children: ReactNode; accentVar?: string }) {
   return (
     <h3
-      className="text-xl font-semibold text-foreground mt-10 mb-4 flex items-center gap-3 pb-2 border-b border-white/[0.06]"
+      className="text-xl font-semibold text-foreground mt-10 mb-4 flex items-center gap-3 pb-2 border-b border-foreground/[0.08]"
     >
       <span
         className="inline-block w-1 h-5 rounded-sm"

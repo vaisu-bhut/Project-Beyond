@@ -19,6 +19,7 @@ export default async function PhasePage({
   const content = CONTENT[slug];
   const TheoryBody = content?.theory;
   const BuildsBody = content?.builds;
+  const ExitBody = content?.exit;
 
   return (
     <>
@@ -28,6 +29,7 @@ export default async function PhasePage({
         node={node} 
         theoryBody={TheoryBody ? <TheoryBody /> : null}
         buildsBody={BuildsBody ? <BuildsBody /> : null}
+        exitBody={ExitBody ? <ExitBody /> : null}
       />
     </>
   );

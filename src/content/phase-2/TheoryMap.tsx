@@ -2,7 +2,10 @@
 
 import { ChapterDivider } from "@/components/book/ChapterDivider";
 import SectionTransformer from "./ch1/TransformerSection";
-import SectionTransformerLayers from "./ch1/TransformerLayersSection";
+import SectionAttentionPipeline from "./ch1/AttentionPipelineSection";
+import SectionMultiHead from "./ch1/MultiHeadSection";
+import SectionPositionalEncodings from "./ch1/PositionalEncodingSection";
+import SectionArchitectures from "./ch1/ArchitectureSection";
 import SectionMLP from "./ch1/MLPSection";
 import SectionBackprop from "./ch1/BackpropSection";
 
@@ -39,21 +42,54 @@ const STYLES = `
     box-shadow: 0 12px 40px 0 rgba(96, 165, 250, 0.06);
   }
 
-  html.light .p2-glass {
-    background: rgba(255, 255, 255, 0.7);
-    border-color: rgba(0, 0, 0, 0.06);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+  html.light .p2-visual-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  
+  html.light .p2-callout {
+    background: transparent !important;
+    border-top: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  html.light .p2-card {
+    background: transparent !important;
+    border: 1px solid rgba(14, 11, 8, 0.12) !important;
+    box-shadow: none !important;
+  }
+
+  html.light .p2-equation-hero {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 24px 0 !important;
+  }
+
+  html.light .p2-equation-glow {
+    display: none !important;
+  }
+
+  html.light .p2-glass:not(.p2-callout):not(.p2-card):not(.p2-visual-card):not(.p2-equation-hero) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
   }
   
   html.light .p2-glass:hover {
-    border-color: rgba(96, 165, 250, 0.3);
-    box-shadow: 0 12px 40px 0 rgba(96, 165, 250, 0.08);
+    border-color: transparent !important;
+    box-shadow: none !important;
   }
 
   /* Micro-animations */
   @keyframes stream-pulse {
-    0%, 100% { filter: drop-shadow(0 0 1px rgba(96, 165, 250, 0.2)); opacity: 0.8; }
-    50% { filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.6)); opacity: 1; }
+    0%, 100% { filter: drop-shadow(0 0 1px rgba(139, 108, 60, 0.2)); opacity: 0.8; }
+    50% { filter: drop-shadow(0 0 4px rgba(139, 108, 60, 0.6)); opacity: 1; }
   }
   .pulse-stream {
     animation: stream-pulse 3s ease-in-out infinite;
@@ -86,7 +122,7 @@ const STYLES = `
     border-color: var(--accent-p2);
     color: var(--ink);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(96, 165, 250, 0.08);
+    box-shadow: 0 4px 12px rgba(139, 108, 60, 0.08);
   }
 
   .p2-btn-pill:active:not(:disabled) {
@@ -94,18 +130,21 @@ const STYLES = `
   }
 
   .p2-btn-pill-active {
-    background: linear-gradient(135deg, var(--accent-p2) 0%, #3b82f6 100%);
+    background: linear-gradient(135deg, var(--accent-p2) 0%, var(--accent-p5) 100%);
     border-color: var(--accent-p2);
     color: #ffffff !important;
-    box-shadow: 0 4px 14px rgba(96, 165, 250, 0.2);
+    box-shadow: 0 4px 14px rgba(139, 108, 60, 0.2);
   }
 
   html.light .p2-btn-pill-active {
+    background: linear-gradient(135deg, var(--accent-p2) 0%, #b45309 100%);
+    border-color: var(--accent-p2);
     color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(139, 108, 60, 0.25);
   }
 
   .p2-btn-pill-active:hover {
-    box-shadow: 0 6px 18px rgba(96, 165, 250, 0.3);
+    box-shadow: 0 6px 18px rgba(139, 108, 60, 0.3);
   }
 
   /* Transition timings */
@@ -120,7 +159,10 @@ export default function Phase2TheoryMap() {
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       <ChapterDivider number="1" title="Vectors, Weights, Biases — and the Loop That Trains Them" accentVar={ACCENT} />
       <SectionTransformer />
-      <SectionTransformerLayers />
+      <SectionAttentionPipeline />
+      <SectionMultiHead />
+      <SectionPositionalEncodings />
+      <SectionArchitectures />
       <SectionMLP />
       <SectionBackprop />
     </div>

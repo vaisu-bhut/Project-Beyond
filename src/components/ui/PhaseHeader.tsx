@@ -9,7 +9,7 @@ export function PhaseHeader({ node }: { node: RoadmapNode }) {
       : `Bonus Track ${String.fromCharCode(64 + node.index - 7)}`;
 
   return (
-    <div className="relative border-b border-white/[0.05]">
+    <div className="relative border-b border-foreground/[0.08]">
       {/* Thin accent hairline at the top — keeps the phase's identity without a heavy wash */}
       <div
         className="absolute inset-x-0 top-0 h-px"

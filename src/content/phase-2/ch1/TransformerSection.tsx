@@ -1,27 +1,37 @@
 "use client";
 import React from 'react';
 
+/**
+ * §1.1 — The Transformer at a Glance
+ * Attention equation hero + Q/K/V projections
+ */
+
 const S = {
-  ink: 'var(--ink)',
-  ink2: 'var(--ink-2)',
-  ink3: 'var(--ink-3)',
-  bg: 'var(--bg-elev)',
-  bgSunk: 'var(--bg-sunken)',
-  rule: 'var(--rule)',
-  blue: 'var(--accent-p2)',
-  blueSoft: 'rgba(96, 165, 250, 0.12)',
-  violet: 'var(--accent-p1)',
-  violetSoft: 'rgba(167, 139, 250, 0.12)',
+  ink: 'var(--ink)', ink2: 'var(--ink-2)', ink3: 'var(--ink-3)',
+  bg: 'var(--bg-elev)', bgSunk: 'var(--bg-sunken)', rule: 'var(--rule)',
+  teal: 'var(--accent-p4)', violet: 'var(--accent-p1)', rose: 'var(--accent-p6)',
+  blue: 'var(--accent-p2)', amber: 'var(--accent-p5)',
+  tealSoft: 'rgba(52, 211, 153, 0.12)', violetSoft: 'rgba(167, 139, 250, 0.12)',
+  roseSoft: 'rgba(251, 113, 133, 0.12)', blueSoft: 'rgba(96, 165, 250, 0.12)',
 };
 
-function Section({ id, eyebrow, title, kicker, borderColor, eyebrowColor, children }: any) {
+function Section({ id, eyebrow, title, kicker, children }: any) {
   return (
-    <section id={id} className="scroll-mt-24 py-12" style={{ borderTop: `2px solid ${borderColor}` }}>
-      <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', fontWeight: 600, color: eyebrowColor, marginBottom: 8, fontFamily: 'var(--mono)' }}>{eyebrow}</div>
+    <section id={id} className="scroll-mt-24 py-12" style={{ borderTop: `2px solid ${S.blue}` }}>
+      <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', fontWeight: 600, color: S.blue, marginBottom: 8, fontFamily: 'var(--mono)' }}>{eyebrow}</div>
       <h2 className="tracking-tight" style={{ fontSize: 32, fontWeight: 600, color: S.ink, lineHeight: 1.1, marginBottom: 12 }}>{title}</h2>
       {kicker && <p style={{ fontSize: 15, color: S.ink2, fontStyle: 'italic', lineHeight: 1.6, marginBottom: 24 }}>{kicker}</p>}
       {children}
     </section>
+  );
+}
+
+function Sub({ title, children }: any) {
+  return (
+    <div style={{ marginTop: 40, marginBottom: 8 }}>
+      <h3 className="tracking-tight" style={{ fontSize: 22, fontWeight: 600, color: S.ink, marginBottom: 12 }}>{title}</h3>
+      {children}
+    </div>
   );
 }
 
@@ -31,8 +41,8 @@ function Para({ children }: any) {
 
 function Callout({ borderColor, labelColor, label, children }: any) {
   return (
-    <div className="p2-glass" style={{ borderLeft: `3px solid ${borderColor}`, padding: '16px 20px', margin: '24px 0', borderRadius: '0 12px 12px 0' }}>
-      <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600, color: labelColor, marginBottom: 6, fontFamily: 'var(--mono)' }}>{label}</div>
+    <div className="p2-glass p2-callout" style={{ borderLeft: `3px solid ${borderColor || S.blue}`, padding: '16px 20px', margin: '24px 0', borderRadius: '0 12px 12px 0' }}>
+      <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600, color: labelColor || S.blue, marginBottom: 6, fontFamily: 'var(--mono)' }}>{label}</div>
       <div style={{ fontSize: 14.5, color: S.ink2, lineHeight: 1.6 }}>{children}</div>
     </div>
   );
@@ -41,87 +51,170 @@ function Callout({ borderColor, labelColor, label, children }: any) {
 function VisualCard({ children, caption }: any) {
   return (
     <div style={{ margin: '28px 0' }}>
-      <div className="p2-glass" style={{ borderRadius: 16, padding: '28px 24px' }}>{children}</div>
-      {caption && <div style={{ fontSize: 12, color: S.ink3, fontStyle: 'italic', marginTop: 10, textAlign: 'center', maxWidth: 720, margin: '10px auto 0', lineHeight: 1.6, padding: '0 16px' }}>{caption}</div>}
+      <div className="p2-glass p2-visual-card" style={{ borderRadius: 16, padding: '28px 24px' }}>{children}</div>
+      {caption && <div style={{ fontSize: 12, color: S.ink3, fontStyle: 'italic', marginTop: 10, textAlignment: 'center', maxWidth: 720, margin: '10px auto 0', lineHeight: 1.6, padding: '0 16px' }}>{caption}</div>}
     </div>
   );
 }
 
-function TransformerStackVisual() {
+function Mono({ children, color }: any) {
+  return <span style={{ fontFamily: 'var(--mono)', color: color || S.ink, fontSize: '0.92em' }}>{children}</span>;
+}
+
+// ── Attention Equation Hero ──
+function AttentionEquationHero() {
   return (
-    <VisualCard caption="The whole architecture in one picture. Tokens enter at the bottom, flow up through N identical blocks, and exit through the LM head as next-token probabilities. A residual stream runs through everything.">
-      <svg viewBox="0 0 660 460" className="w-full h-auto">
+    <VisualCard caption="The whole equation. Multi-head attention, positional encodings, masking, and the entire decoder are wrappers around this single line of math.">
+      <div className="p2-equation-hero" style={{
+        background: '#0E0B08', borderRadius: 8,
+        padding: '56px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+        color: 'var(--foreground)'
+      }}>
+        <div className="p2-equation-glow" style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(circle at 30% 50%, rgba(212, 155, 58, 0.13) 0%, transparent 50%)',
+          pointerEvents: 'none',
+        }} />
+        <div style={{
+          fontFamily: 'var(--mono)', fontSize: '0.72rem', letterSpacing: '0.24em',
+          color: '#D49B3A', marginBottom: 24, position: 'relative',
+          textTransform: 'uppercase', fontWeight: 600,
+        }}>
+          THE WHOLE EQUATION
+        </div>
+        <div style={{
+          fontFamily: 'var(--sans)', fontSize: 'clamp(1.6rem, 4.5vw, 3rem)',
+          fontStyle: 'italic', lineHeight: 1.2, position: 'relative',
+          color: 'var(--foreground)', fontWeight: 500,
+        }}>
+          Attention<span style={{ color: 'var(--foreground-muted)' }}>(</span>
+          <span style={{ color: '#3B8C8C' }}>Q</span>,&thinsp;
+          <span style={{ color: '#7C5BA8' }}>K</span>,&thinsp;
+          <span style={{ color: '#C26A47' }}>V</span>
+          <span style={{ color: 'var(--foreground-muted)' }}>) = </span>
+          softmax<span style={{ color: 'var(--foreground-muted)' }}>(</span>
+          <span style={{ color: '#3B8C8C' }}>Q</span>
+          <span style={{ color: '#7C5BA8' }}>Kᵀ</span>
+          <span style={{ color: 'var(--foreground-muted)' }}> / </span>
+          √d<sub>k</sub>
+          <span style={{ color: 'var(--foreground-muted)' }}>)</span>
+          &thinsp;<span style={{ color: '#C26A47' }}>V</span>
+        </div>
+        <div style={{
+          marginTop: 28, display: 'flex', justifyContent: 'center', gap: 28,
+          flexWrap: 'wrap', fontFamily: 'var(--mono)', fontSize: '0.78rem',
+          color: 'var(--foreground-muted)',
+        }}>
+          <span><span style={{ color: '#3B8C8C' }}>■</span> Query — what am I looking for?</span>
+          <span><span style={{ color: '#7C5BA8' }}>■</span> Key — what do I offer?</span>
+          <span><span style={{ color: '#C26A47' }}>■</span> Value — what do I actually carry?</span>
+        </div>
+      </div>
+    </VisualCard>
+  );
+}
+
+// ── Q/K/V Projections ──
+function QKVProjections() {
+  return (
+    <VisualCard caption="Three learned linear projections applied to every token. The same input X is projected into three distinct roles — asking, advertising, and carrying content.">
+      <svg viewBox="0 0 720 360" className="w-full h-auto">
         <defs>
-          <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="var(--accent-p2)" />
-            <stop offset="100%" stopColor="#2563eb" />
-          </linearGradient>
-          <linearGradient id="violetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="var(--accent-p1)" />
-            <stop offset="100%" stopColor="#7c3aed" />
-          </linearGradient>
-          <linearGradient id="residualGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stopColor="var(--accent-p2)" stopOpacity="0.05" />
-            <stop offset="50%" stopColor="var(--accent-p2)" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="var(--accent-p2)" stopOpacity="0.9" />
-          </linearGradient>
-          <marker id="arrGray2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M2 1L8 5L2 9" fill="none" stroke={S.ink3} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <marker id="arr-qkv" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="var(--foreground-muted)" strokeWidth="1.5" strokeLinecap="round" />
           </marker>
         </defs>
 
-        {/* Residual Stream */}
-        <line x1="330" y1="80" x2="330" y2="400" stroke="url(#residualGrad)" strokeWidth="6" strokeLinecap="round" className="pulse-stream" />
-
-        {/* Token Embedding Block */}
-        <g className="transition-svg hover:opacity-95" style={{ transformBox: 'fill-box', transformOrigin: 'center' }}>
-          <rect x="220" y="380" width="220" height="46" rx="10" fill="rgba(167, 139, 250, 0.06)" stroke="url(#violetGrad)" strokeWidth="1.5"/>
-          <text x="330" y="401" textAnchor="middle" fontSize="14" fontWeight="600" fill="var(--accent-p1)" fontFamily="var(--sans)">Token embedding</text>
-          <text x="330" y="417" textAnchor="middle" fontSize="10.5" fill={S.ink3} fontStyle="italic" fontFamily="var(--mono)">vocab × d_model lookup</text>
+        <g>
+          <rect x="40" y="120" width="100" height="120" rx="6" fill="rgba(96, 165, 250, 0.04)" stroke="var(--border)" strokeWidth="1.5" />
+          {[0, 1, 2, 3, 4].map(i => (
+            <rect key={i} x="44" y={124 + i * 22} width="92" height="18" rx="3" fill="rgba(96, 165, 250, 0.06)" />
+          ))}
+          <text x="90" y="110" textAnchor="middle" fontFamily="var(--mono)" fontSize="14" fontWeight="600" fill="var(--foreground)">X</text>
+          <text x="90" y="262" textAnchor="middle" fontFamily="var(--mono)" fontSize="10" fill="var(--foreground-muted)">[n × d_model]</text>
+          <text x="90" y="280" textAnchor="middle" fontFamily="var(--sans)" fontSize="11" fill="var(--foreground-muted)" fontStyle="italic">token embeddings</text>
         </g>
-        <line x1="330" y1="380" x2="330" y2="358" stroke={S.ink3} strokeWidth="1.2" markerEnd="url(#arrGray2)"/>
 
-        {/* Identical stacked Blocks */}
-        {[{ y: 290, label: 'Block N' }, { y: 180, label: 'Block 2' }, { y: 100, label: 'Block 1' }].map((b) => (
-          <g key={b.label} className="transition-svg group" style={{ cursor: 'pointer' }}>
-            <rect x="170" y={b.y} width="320" height="64" rx="12" fill="rgba(96, 165, 250, 0.03)" stroke="url(#blueGrad)" strokeWidth="1" strokeDasharray="5 4" className="transition-svg group-hover:fill-blue-500/[0.08]" />
-            <rect x="182" y={b.y + 12} width="60" height="18" rx="4" fill="rgba(96, 165, 250, 0.12)" />
-            <text x="212" y={b.y + 24} textAnchor="middle" fontSize="10" fontWeight="600" fill="var(--accent-p2)" fontFamily="var(--mono)" style={{ letterSpacing: '0.05em' }}>{b.label}</text>
-            
-            <g className="transition-svg group-hover:translate-x-1">
-              <text x="350" y={b.y + 28} textAnchor="middle" fontSize="13.5" fontWeight="500" fill="var(--foreground)" fontFamily="var(--sans)">norm → attention → +</text>
-              <text x="350" y={b.y + 48} textAnchor="middle" fontSize="13.5" fontWeight="500" fill="var(--foreground)" fontFamily="var(--sans)">norm → MLP → +</text>
-            </g>
-            <line x1="330" y1={b.y} x2="330" y2={b.y - 22} stroke={S.ink3} strokeWidth="1.2" markerEnd="url(#arrGray2)"/>
+        {[
+          { label: "W_Q", color: S.teal, colorRaw: 'rgba(52, 211, 153, 0.15)', y: 50, outLabel: "Q", desc: "Query" },
+          { label: "W_K", color: S.violet, colorRaw: 'rgba(167, 139, 250, 0.15)', y: 160, outLabel: "K", desc: "Key" },
+          { label: "W_V", color: S.rose, colorRaw: 'rgba(251, 113, 133, 0.15)', y: 270, outLabel: "V", desc: "Value" },
+        ].map((p, i) => (
+          <g key={i}>
+            <path d={`M 140 ${180} Q 220 ${180}, 280 ${p.y + 25}`} fill="none" stroke="var(--foreground-muted)" strokeWidth="1" markerEnd="url(#arr-qkv)" opacity="0.6" />
+            <rect x="290" y={p.y} width="80" height="50" rx="6" fill="rgba(255,255,255,0.02)" stroke={p.color} strokeWidth="1.5" />
+            <text x="330" y={p.y + 30} textAnchor="middle" fontFamily="var(--mono)" fontSize="13" fontWeight="600" fill={p.color}>{p.label}</text>
+            <text x="330" y={p.y + 68} textAnchor="middle" fontFamily="var(--mono)" fontSize="9" fill="var(--foreground-muted)">[d_model × d_k]</text>
+            <path d={`M 370 ${p.y + 25} L 460 ${p.y + 25}`} fill="none" stroke="var(--foreground-muted)" strokeWidth="1" markerEnd="url(#arr-qkv)" opacity="0.6" />
+            <rect x="470" y={p.y - 5} width="80" height="60" rx="6" fill={p.colorRaw} stroke={p.color} strokeWidth="1.5" />
+            {[0, 1, 2].map(j => (
+              <rect key={j} x="474" y={p.y - 1 + j * 19} width="72" height="15" rx="3" fill={p.colorRaw} />
+            ))}
+            <text x="510" y={p.y - 12} textAnchor="middle" fontFamily="var(--sans)" fontSize="18" fontStyle="italic" fontWeight="600" fill={p.color}>{p.outLabel}</text>
+            <text x="510" y={p.y + 73} textAnchor="middle" fontFamily="var(--mono)" fontSize="9" fill="var(--foreground-muted)">[n × d_k]</text>
+            <text x="620" y={p.y + 30} fontFamily="var(--sans)" fontSize="14" fontStyle="italic" fill={p.color}>{p.desc}</text>
           </g>
         ))}
 
-        <text x="330" y="254" textAnchor="middle" fontSize="22" fill={S.ink3} fontWeight="bold">⋮</text>
-
-        {/* Final LM Head Block */}
-        <g className="transition-svg hover:opacity-95">
-          <rect x="220" y="34" width="220" height="42" rx="10" fill="rgba(167, 139, 250, 0.06)" stroke="url(#violetGrad)" strokeWidth="1.5"/>
-          <text x="330" y="54" textAnchor="middle" fontSize="13.5" fontWeight="600" fill="var(--accent-p1)" fontFamily="var(--sans)">Final norm → LM head</text>
-          <text x="330" y="69" textAnchor="middle" fontSize="10" fill={S.ink3} fontStyle="italic" fontFamily="var(--mono)">d_model → vocab logits → softmax</text>
-        </g>
-
-        <text x="455" y="240" fontSize="12" fill="var(--accent-p2)" fontWeight="500" fontStyle="italic" fontFamily="var(--mono)">residual stream</text>
-        <line x1="452" y1="234" x2="338" y2="220" stroke="var(--accent-p2)" strokeWidth="1" strokeDasharray="3 3" opacity="0.6" className="pulse-stream"/>
+        <text x="200" y="40" fontFamily="var(--mono)" fontSize="11" fill="var(--foreground-muted)">
+          Three learned linear projections, applied to every token
+        </text>
       </svg>
     </VisualCard>
   );
 }
 
+// ── Main Export ──
 export default function SectionTransformer() {
   return (
-    <Section id="transformer" eyebrow="1.1 · The Transformer at a Glance" title="The transformer at a glance" kicker="The architecture under every modern LLM. N identical blocks stacked vertically, embeddings at the bottom, a language-modeling head at the top, and a residual stream running through everything." borderColor={S.blue} eyebrowColor={S.blue}>
-      <Para>
-        A transformer is not a complicated object. It is the same block, copied N times. Llama 3 8B uses 32 blocks. The 70B version uses 80. The 405B version uses 126. Inside each block there are two sublayers — an attention mechanism that mixes information across positions, and a multi-layer perceptron that transforms each position independently.
-      </Para>
-      <TransformerStackVisual />
-      <Callout borderColor={S.blue} labelColor={S.blue} label="Where this is going">
-        Each blue-dashed block above contains an MLP — the per-position transformation that does most of the per-token computation. Understanding the MLP and how it learns by backpropagation is enough to understand training for the entire model; the algorithm is identical, just over a much larger computational graph.
+    <Section
+      id="transformer"
+      eyebrow="1.1 · Transformers — From First Reading"
+      title="Transformers, from first reading"
+      kicker="One equation, three matrices, a stack of identical blocks, and a single self-supervised objective. Everything the modern LLM stack rests on lives here."
+    >
+      <Callout borderColor={S.blue} labelColor={S.blue} label="Where we are">
+        <strong style={{ color: S.blue }}>Phase 2</strong> is the LLM-application phase.
+        This section is its <em>theory map</em>: become fluent reading transformer architectures
+        before implementing one in Phase 3 (nanoGPT). The point right now is to recognise every
+        symbol in any 2026 paper and to have <em>feel</em> for the geometry of attention.
+        You will not write a transformer block in this section.
       </Callout>
+
+      <Sub title="Attention is a soft lookup">
+        <Para>
+          A transformer is, in spirit, a stack of soft, differentiable dictionary lookups.
+          Each token forms a <Mono color={S.teal}>query</Mono>, every other token offers a{' '}
+          <Mono color={S.violet}>key</Mono> and a <Mono color={S.rose}>value</Mono>. The query is
+          compared to every key, similarities are turned into weights, and the output is a
+          weighted average of values. That comparison-then-blend operation is one line of math:
+        </Para>
+        <AttentionEquationHero />
+        <Para>
+          The roadmap calls it "the whole equation" for good reason. Multi-head attention,
+          positional encodings, masking, and the entire decoder are wrappers around this. Let's
+          unpack the matrices.
+        </Para>
+      </Sub>
+
+      <Sub title="Q, K, V are learned views of the same X">
+        <Para>
+          Input <Mono>X</Mono> arrives as a stack of token embeddings — shape{' '}
+          <Mono>[n × d_model]</Mono>, where <Mono>n</Mono> is sequence length and{' '}
+          <Mono>d_model</Mono> is the hidden size (e.g. 4096 for Llama-3-8B). Three learned weight
+          matrices project <Mono>X</Mono> into three roles:
+        </Para>
+        <QKVProjections />
+        <Callout borderColor={S.teal} labelColor={S.teal} label="Why three projections of the same thing?">
+          Because the same token plays three roles per attention step:{' '}
+          <strong style={{ color: S.teal }}>asking</strong> (Q),{' '}
+          <strong style={{ color: S.violet }}>advertising</strong> (K), and{' '}
+          <strong style={{ color: S.rose }}>providing content</strong> (V). Learned projections let
+          the model decouple them — a token can "ask about" something it doesn't itself "carry."
+          Mechanistic interpretability research in Phase 6 reads these projections directly:
+          induction heads, name-mover heads, etc.
+        </Callout>
+      </Sub>
     </Section>
   );
 }

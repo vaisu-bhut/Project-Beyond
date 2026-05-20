@@ -15,7 +15,7 @@ export function FormulaCard({ name, formula, display = true, description, classN
   return (
     <div
       className={cn(
-        "glass rounded-xl p-5 transition-all hover:border-white/20 hover:translate-y-[-2px]",
+        "glass rounded-xl p-5 transition-all hover:border-foreground/20 hover:translate-y-[-2px]",
         className,
       )}
     >
