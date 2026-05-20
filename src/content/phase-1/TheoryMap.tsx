@@ -4,6 +4,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { ChapterDivider } from "@/components/book/ChapterDivider";
 import NeuralNetworkComponents from "./Chapter3";
+import GradientDescent3D from "./GradientDescent3D";
+import AITaxonomy from "./AITaxonomy";
+import EvaluationFundamentals from "./EvaluationFundamentals";
 
 const ACCENT = "--accent-p1";
 
@@ -226,7 +229,7 @@ function ParadigmsSection() {
   return (
     <section id="paradigms" className="scroll-mt-24 py-16 md:py-20" style={{ borderBottom: "1px solid var(--rule)" }}>
       <SectionHeader
-        eyebrow="1.1 · Five Paradigms"
+        eyebrow="2.1 · Five Paradigms"
         title="What is the model being taught from?"
         sub="Each paradigm differs in what kind of supervision signal exists. The right mental model isn't 'when in training' — it's 'what shape does the data come in?'"
       />
@@ -298,7 +301,7 @@ function PipelineSection() {
   return (
     <section id="pipeline" className="scroll-mt-24 py-16 md:py-20" style={{ borderBottom: "1px solid var(--rule)" }}>
       <SectionHeader
-        eyebrow="1.2 · Training Stages"
+        eyebrow="2.2 · Training Stages"
         title="Where each paradigm lives in the modern pipeline"
         sub="Pretraining gives knowledge. SFT gives manners. Preference optimization gives taste. After that, weights are frozen."
       />
@@ -398,7 +401,7 @@ function RLTaxonomy() {
   return (
     <section id="rl-taxonomy" className="scroll-mt-24 py-16 md:py-20" style={{ borderBottom: "1px solid var(--rule)" }}>
       <SectionHeader
-        eyebrow="1.3 · RL Family Tree"
+        eyebrow="2.3 · RL Family Tree"
         title="The RL family tree"
         sub="Classical RL gave us PPO; LLM post-training built RLHF on top of PPO; DPO and friends rearranged the math to skip RL entirely while solving the same problem."
       />
@@ -546,7 +549,7 @@ function LossExamplesSection() {
   return (
     <section id="losses" className="scroll-mt-24 py-16 md:py-20" style={{ borderBottom: "1px solid var(--rule)" }}>
       <SectionHeader
-        eyebrow="2.0 · Losses in the Wild"
+        eyebrow="3.0 · Losses in the Wild"
         title="What real models actually minimize"
         sub="The shape of the loss is the specification of the task. Different output shapes call for different shapes of pain."
       />
@@ -633,7 +636,7 @@ function CrossEntropySection() {
   return (
     <section id="cross-entropy" className="scroll-mt-24 py-16 md:py-20" style={{ borderBottom: "1px solid var(--rule)" }}>
       <SectionHeader
-        eyebrow="2.1 · Cross-Entropy"
+        eyebrow="3.1 · Cross-Entropy"
         title="−log(p_true) — the asymmetric punishment"
         sub="Confident & right gets near-zero loss. Confident & wrong gets catastrophic loss. The asymmetry is what forces models to be calibrated."
       />
@@ -777,7 +780,7 @@ function SoftmaxSection() {
   return (
     <section id="softmax" className="scroll-mt-24 py-16 md:py-20" style={{ borderBottom: "1px solid var(--rule)" }}>
       <SectionHeader
-        eyebrow="2.2 · Softmax"
+        eyebrow="3.2 · Softmax"
         title="e^{z_i} / Σ e^{z_j} — turning scores into probabilities"
         sub="Exponentials make everything positive; division normalizes to sum 1. The temperature dial in every LLM API is exactly this T."
       />
@@ -904,7 +907,7 @@ function KLDivergenceSection() {
   return (
     <section id="kl" className="scroll-mt-24 py-16 md:py-20" style={{ borderBottom: "1px solid var(--rule)" }}>
       <SectionHeader
-        eyebrow="2.3 · KL Divergence"
+        eyebrow="3.3 · KL Divergence"
         title="Σ P log(P/Q) — how poorly Q approximates P"
         sub="Always ≥ 0. Zero only when distributions match exactly. Asymmetric (KL(P‖Q) ≠ KL(Q‖P)) — used as a constraint in RLHF, a matching loss in distillation, and the inner cousin of cross-entropy."
       />
@@ -999,7 +1002,7 @@ function ConnectionsSection() {
   return (
     <section id="connections" className="scroll-mt-24 py-16 md:py-20" style={{ borderBottom: "1px solid var(--rule)", background: "var(--bg-sunken)" }}>
       <SectionHeader
-        eyebrow="2.4 · Connections"
+        eyebrow="3.4 · Connections"
         title="How softmax, cross-entropy, and KL connect"
         sub="They're not three concepts — they're one mechanism viewed three ways. This is the inner loop of every classifier and language model."
       />
@@ -1094,160 +1097,14 @@ function ConnectionsSection() {
 // ─── EQ 4 · GRADIENT DESCENT ───────────────────────────────────────────────
 
 function GradientDescentSection() {
-  const [lr, setLr] = useState(0.15);
-  const [start, setStart] = useState(-2.8);
-  const [theta, setTheta] = useState(-2.8);
-  const [trail, setTrail] = useState<number[]>([]);
-  const [steps, setSteps] = useState(0);
-
-  const lossFn = (t: number) => t * t;
-  const gradFn = (t: number) => 2 * t;
-
-  const presets: Preset[] = [
-    { key: "sweet", label: "Sweet spot", apply: () => setLr(0.15) },
-    { key: "tiny", label: "Too small", apply: () => setLr(0.03) },
-    { key: "big", label: "Too big", apply: () => setLr(0.85) },
-    { key: "chaos", label: "Diverging", apply: () => setLr(1.05) },
-  ];
-
-  useEffect(() => {
-    // Reset the descent visualization whenever the user changes lr or start.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setTheta(start);
-    setTrail([]);
-    setSteps(0);
-  }, [start, lr]);
-
-  const step = () => {
-    const g = gradFn(theta);
-    let next = theta - lr * g;
-    if (next > 4) next = 4;
-    if (next < -4) next = -4;
-    setTrail((t) => [...t.slice(-24), theta]);
-    setTheta(next);
-    setSteps((s) => s + 1);
-  };
-
-  const run = () => {
-    let count = 0;
-    let cur = theta;
-    let cTrail = [...trail];
-    let cSteps = steps;
-    const tick = () => {
-      if (count >= 30) return;
-      const g = gradFn(cur);
-      let next = cur - lr * g;
-      if (next > 4) next = 4;
-      if (next < -4) next = -4;
-      cTrail = [...cTrail.slice(-24), cur];
-      cur = next;
-      cSteps += 1;
-      setTheta(cur);
-      setTrail(cTrail);
-      setSteps(cSteps);
-      count += 1;
-      setTimeout(tick, 80);
-    };
-    tick();
-  };
-
-  const reset = () => {
-    setTheta(start);
-    setTrail([]);
-    setSteps(0);
-  };
-
-  const xMap = (t: number) => 320 + t * 80;
-  const yMap = (l: number) => 240 - Math.min(l, 12) * 18;
-
-  const curveD = useMemo(() => {
-    let d = "";
-    for (let i = 0; i <= 100; i++) {
-      const t = -3.5 + i * 0.07;
-      const l = lossFn(t);
-      const x = xMap(t);
-      const y = yMap(l);
-      if (x >= 40 && x <= 600 && y >= 20) d += (d === "" ? "M" : "L") + x.toFixed(1) + " " + y.toFixed(1) + " ";
-    }
-    return d;
-  }, []);
-
-  let verdict: string;
-  let vColor: "teal" | "amber" | "crimson";
-  if (lr < 0.05) {
-    verdict = "Too small — glacial training, wastes compute.";
-    vColor = "amber";
-  } else if (lr < 0.4) {
-    verdict = "Sweet spot — smooth descent.";
-    vColor = "teal";
-  } else if (lr < 0.95) {
-    verdict = "Too aggressive — oscillating but converging.";
-    vColor = "amber";
-  } else {
-    verdict = "Diverging — loss explodes. NaN territory.";
-    vColor = "crimson";
-  }
-
   return (
     <section id="gradient-descent" className="scroll-mt-24 py-16 md:py-20" style={{ borderBottom: "1px solid var(--rule)" }}>
       <SectionHeader
-        eyebrow="2.5 · Gradient Descent"
+        eyebrow="3.5 · Gradient Descent"
         title="θ ← θ − η∇L — rolling downhill"
         sub="The single mechanism behind every neural network's training. The whole story is in what η does."
       />
-
-      <div className="p1-card p-6">
-        <PresetRow presets={presets} onPick={(pp) => pp.apply?.()} />
-
-        <Slider label="Learning rate η" min={0.01} max={1.05} step={0.01} value={lr} onChange={setLr} />
-        <Slider label="Starting θ" min={-3.5} max={3.5} step={0.1} value={start} onChange={setStart} format={(v) => v.toFixed(1)} />
-
-        <div className="p1-card-sunken p-3 my-4">
-          <svg viewBox="0 0 640 280" className="w-full">
-            <line x1="40" y1="240" x2="600" y2="240" stroke="var(--rule)" strokeWidth="0.5" />
-            <line x1="40" y1="20" x2="40" y2="240" stroke="var(--rule)" strokeWidth="0.5" />
-            <text x="36" y="240" textAnchor="end" dominantBaseline="central" fontSize="10" fill="var(--ink-3)" fontFamily="var(--mono)">0</text>
-            <text x="36" y="130" textAnchor="end" dominantBaseline="central" fontSize="10" fill="var(--ink-3)" fontFamily="var(--mono)">loss</text>
-            <text x="320" y="262" textAnchor="middle" fontSize="10" fill="var(--ink-3)" fontFamily="var(--mono)">parameter θ</text>
-            <path d={curveD} fill="none" stroke="var(--indigo)" strokeWidth="2" />
-            <line x1="320" y1="20" x2="320" y2="240" stroke="var(--teal)" strokeWidth="0.6" strokeDasharray="3 3" />
-            <text x="324" y="32" fontSize="10" fill="var(--teal)" fontFamily="var(--sans)">global minimum</text>
-            {trail.map((t, i) => {
-              const x = xMap(t);
-              const y = yMap(lossFn(t));
-              const op = 0.15 + 0.5 * (i / Math.max(trail.length, 1));
-              return <circle key={i} cx={x.toFixed(2)} cy={y.toFixed(2)} r="3" fill="var(--amber)" opacity={op.toFixed(2)} />;
-            })}
-            <circle cx={xMap(theta).toFixed(2)} cy={yMap(lossFn(theta)).toFixed(2)} r="8" fill="var(--amber)" stroke="var(--background)" strokeWidth="2" />
-          </svg>
-        </div>
-
-        <div className="flex flex-wrap gap-2 mb-4">
-          <button className="p1-btn" onClick={step}>Step ▸</button>
-          <button className="p1-btn" onClick={run}>Run 30 steps</button>
-          <button className="p1-btn" onClick={reset}>Reset</button>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2 mb-3">
-          <div className="p1-card-sunken p-3">
-            <div className="text-[10px]" style={{ color: "var(--ink-3)" }}>STEPS</div>
-            <div className="p1-num text-base">{steps}</div>
-          </div>
-          <div className="p1-card-sunken p-3">
-            <div className="text-[10px]" style={{ color: "var(--ink-3)" }}>POSITION θ</div>
-            <div className="p1-num text-base">{theta.toFixed(2)}</div>
-          </div>
-          <div className="p1-card-sunken p-3">
-            <div className="text-[10px]" style={{ color: "var(--ink-3)" }}>LOSS</div>
-            <div className="p1-num text-base">{lossFn(theta).toFixed(2)}</div>
-          </div>
-        </div>
-
-        <div className="p1-card-sunken p-3 text-xs">
-          <span className={"p1-tag p1-tag-" + vColor + " mr-2"}>η = {lr.toFixed(2)}</span>
-          <span style={{ color: "var(--ink-2)" }}>{verdict}</span>
-        </div>
-      </div>
+      <GradientDescent3D />
     </section>
   );
 }
@@ -1327,7 +1184,7 @@ function AdamSection() {
   return (
     <section id="adam" className="scroll-mt-24 py-16 md:py-20" style={{ borderBottom: "1px solid var(--rule)" }}>
       <SectionHeader
-        eyebrow="2.6 · Adam"
+        eyebrow="3.6 · Adam"
         title="m / √v — momentum divided by magnitude"
         sub="Two filters on the gradient stream: a low-pass on direction (m), a low-pass on magnitude (√v). Divide the first by the second. That's Adam."
       />
@@ -1533,7 +1390,7 @@ function BiasVarianceSection() {
   return (
     <section id="bias-variance" className="scroll-mt-24 py-16 md:py-20" style={{ borderBottom: "1px solid var(--rule)" }}>
       <SectionHeader
-        eyebrow="2.7 · Bias-Variance"
+        eyebrow="3.7 · Bias-Variance"
         title="Error = Bias² + Variance + Noise"
         sub="Too simple → can't capture the truth (high bias). Too complex → chases noise (high variance). The classical job is finding the bottom of the U."
       />
@@ -1621,7 +1478,7 @@ function SynthesisSection() {
     >
       <div className="absolute inset-0 bg-grid opacity-30 [mask-image:radial-gradient(ellipse_at_center,black,transparent_85%)]" />
       <div className="relative">
-        <div className="p1-eyebrow mb-5">2.8 · Synthesis — the whole loop</div>
+        <div className="p1-eyebrow mb-5">3.8 · Synthesis — the whole loop</div>
         <h2 className="p1-h2 text-3xl md:text-5xl mb-10" style={{ color: "var(--ink)" }}>
           One mechanism, end to end.
         </h2>
@@ -1695,12 +1552,15 @@ export default function Phase1TheoryMap() {
     <div className="p1-root">
       <style>{STYLES}</style>
 
-      <ChapterDivider number="1" title="Paradigms & Pipeline" accentVar={ACCENT} />
+      <ChapterDivider number="1" title="The Broad View: AI & ML Landscape" accentVar={ACCENT} />
+      <AITaxonomy />
+
+      <ChapterDivider number="2" title="Paradigms & Pipeline" accentVar={ACCENT} />
       <ParadigmsSection />
       <PipelineSection />
       <RLTaxonomy />
 
-      <ChapterDivider number="2" title="Equations & Loss Surfaces" accentVar={ACCENT} />
+      <ChapterDivider number="3" title="Equations & Loss Surfaces" accentVar={ACCENT} />
       <LossExamplesSection />
       <CrossEntropySection />
       <SoftmaxSection />
@@ -1710,7 +1570,12 @@ export default function Phase1TheoryMap() {
       <AdamSection />
       <BiasVarianceSection />
       <SynthesisSection />
+
+      <ChapterDivider number="4" title="Neural Network Components" accentVar={ACCENT} />
       <NeuralNetworkComponents />
+
+      <ChapterDivider number="5" title="Evaluation Fundamentals" accentVar={ACCENT} />
+      <EvaluationFundamentals />
     </div>
   );
 }

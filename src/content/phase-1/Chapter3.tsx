@@ -977,7 +977,7 @@ function InitViz() {
 export default function NeuralNetworkComponents() {
   return (
     <>
-      <ChapterDivider number="3" title="Neural Network Components" accentVar="--accent-p1" />
+      <ChapterDivider number="4" title="Neural Network Components" accentVar="--accent-p1" />
 
       <div className="text-[var(--ink)]" style={{ fontFamily: 'var(--sans)' }}>
         <div className="py-12">
@@ -1016,7 +1016,7 @@ export default function NeuralNetworkComponents() {
             </div>
           </section>
 
-          <Section id="architecture" title="Architectures: MLP, CNN, RNN" kicker="3.1 · Information flow">
+          <Section id="architecture" title="Architectures: MLP, CNN, RNN" kicker="4.1 · Information flow">
             <div className="prose-content space-y-5 text-[var(--ink-2)] leading-relaxed">
               <p>
                 Three families, distinguished by how data flows. The deeper framing is that
@@ -1050,7 +1050,7 @@ export default function NeuralNetworkComponents() {
             </p>
           </Section>
 
-          <Section id="activations" title="Activations" kicker="3.2 · Nonlinearity">
+          <Section id="activations" title="Activations" kicker="4.2 · Nonlinearity">
             <div className="text-[var(--ink-2)] leading-relaxed space-y-4">
               <p>
                 The real reason activations exist:{' '}
@@ -1086,7 +1086,7 @@ export default function NeuralNetworkComponents() {
             </VizFrame>
           </Section>
 
-          <Section id="normalization" title="Normalization" kicker="3.3 · Training stability">
+          <Section id="normalization" title="Normalization" kicker="4.3 · Training stability">
             <div className="text-[var(--ink-2)] leading-relaxed space-y-4">
               <p>
                 Normalization isn't making values "more meaningful" — they were already the
@@ -1122,7 +1122,7 @@ export default function NeuralNetworkComponents() {
             </div>
           </Section>
 
-          <Section id="regularization" title="Regularization" kicker="3.4 · Anti-memorization">
+          <Section id="regularization" title="Regularization" kicker="4.4 · Anti-memorization">
             <div className="text-[var(--ink-2)] leading-relaxed space-y-4">
               <p>
                 A network with enough capacity will perfectly fit training examples while
@@ -1151,7 +1151,7 @@ export default function NeuralNetworkComponents() {
             </VizFrame>
           </Section>
 
-          <Section id="optimizers" title="Optimizers" kicker="3.5 · Navigation strategy">
+          <Section id="optimizers" title="Optimizers" kicker="4.5 · Navigation strategy">
             <div className="text-[var(--ink-2)] leading-relaxed space-y-4">
               <p>
                 Imagine the loss as a landscape with valleys and ridges. Your weights are a
@@ -1188,7 +1188,7 @@ export default function NeuralNetworkComponents() {
             </VizFrame>
           </Section>
 
-          <Section id="lr-schedules" title="Learning rate schedules" kicker="3.6 · Step sizing over time">
+          <Section id="lr-schedules" title="Learning rate schedules" kicker="4.6 · Step sizing over time">
             <div className="text-[var(--ink-2)] leading-relaxed space-y-4">
               <p>
                 The learning rate sets how far each update moves. Too small: training crawls
@@ -1214,7 +1214,7 @@ export default function NeuralNetworkComponents() {
             </VizFrame>
           </Section>
 
-          <Section id="initialization" title="Initialization" kicker="3.7 · Starting point">
+          <Section id="initialization" title="Initialization" kicker="4.7 · Starting point">
             <div className="text-[var(--ink-2)] leading-relaxed space-y-4">
               <p>
                 The most underrated piece. Before training begins, every weight needs a

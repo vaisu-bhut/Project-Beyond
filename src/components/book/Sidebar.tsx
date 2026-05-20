@@ -7,9 +7,10 @@ import type { Section } from "@/data/roadmap";
 type Props = {
   sections: Section[];
   accentVar: string;
+  hideOverview?: boolean;
 };
 
-export function BookSidebar({ sections, accentVar }: Props) {
+export function BookSidebar({ sections, accentVar, hideOverview }: Props) {
   const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
@@ -71,33 +72,23 @@ export function BookSidebar({ sections, accentVar }: Props) {
       </p>
 
       <ul className="space-y-1">
-        <li>
-          <Row
-            id="overview"
-            label="Overview"
-            depth={0}
-            active={active === "overview"}
-            accentVar={accentVar}
-          />
-        </li>
+        {!hideOverview && (
+          <li>
+            <Row
+              id="overview"
+              label="Overview"
+              depth={0}
+              active={active === "overview"}
+              accentVar={accentVar}
+            />
+          </li>
+        )}
 
         {sections.map((sec) => {
-          const subIds = sec.chapters?.flatMap((c) => c.subchapters.map((s) => s.id)) ?? [];
-          const inThisSection = active === sec.id || subIds.includes(active ?? "");
           return (
-            <li key={sec.id} className="pt-4">
-              <Row
-                id={sec.id}
-                label={sec.title}
-                number={sec.number}
-                depth={0}
-                active={active === sec.id}
-                emphasized={inThisSection}
-                accentVar={accentVar}
-              />
-
+            <li key={sec.id} className="pt-2">
               {sec.chapters && sec.chapters.length > 0 && (
-                <ul className="mt-1 ml-3">
+                <ul className="mt-1">
                   {sec.chapters.map((ch) => {
                     const chSubIds = ch.subchapters.map((s) => s.id);
                     const inThisChapter = chSubIds.includes(active ?? "");

@@ -54,7 +54,6 @@ export type RoadmapNode = {
 const EMPTY_SECTIONS: Section[] = [
   { id: "theory", number: "01", title: "Theory" },
   { id: "builds", number: "02", title: "Build Block" },
-  { id: "exit",   number: "03", title: "Exit Criteria" },
 ];
 
 export const ROADMAP: RoadmapNode[] = [
@@ -71,12 +70,6 @@ export const ROADMAP: RoadmapNode[] = [
     accent: "violet",
     accentVar: "--accent-p1",
     builds: 3,
-    overview: [
-      "Five learning paradigms — supervised, unsupervised, self-supervised, semi-supervised, and reinforcement learning — and where each one lives in the modern training pipeline.",
-      "Six equations every paper assumes you recognize: cross-entropy, softmax, KL divergence, gradient descent, Adam, and the bias-variance tradeoff.",
-      "Loss functions in production: from GPT's next-token cross-entropy to AlphaFold's coordinate MSE to CLIP's contrastive objective.",
-      "PyTorch fluency through three shipped builds — vision baselines, transfer learning, and tabular gradient boosting.",
-    ],
     sections: [
       {
         id: "theory",
@@ -86,47 +79,69 @@ export const ROADMAP: RoadmapNode[] = [
           {
             id: "ch-1",
             number: "1",
-            title: "Paradigms & Pipeline",
+            title: "The Broad View: AI & ML Landscape",
             subchapters: [
-              { id: "paradigms",   number: "1.1", title: "Five Paradigms" },
-              { id: "pipeline",    number: "1.2", title: "Training Stages" },
-              { id: "rl-taxonomy", number: "1.3", title: "RL Family Tree" },
+              { id: "ai-taxonomy",        number: "1.1", title: "AI Family Tree" },
             ],
           },
           {
             id: "ch-2",
             number: "2",
-            title: "Equations & Loss Surfaces",
+            title: "Paradigms & Pipeline",
             subchapters: [
-              { id: "losses",           number: "2.0", title: "Losses in the Wild" },
-              { id: "cross-entropy",    number: "2.1", title: "Cross-Entropy" },
-              { id: "softmax",          number: "2.2", title: "Softmax" },
-              { id: "kl",               number: "2.3", title: "KL Divergence" },
-              { id: "connections",      number: "2.4", title: "Connections" },
-              { id: "gradient-descent", number: "2.5", title: "Gradient Descent" },
-              { id: "adam",             number: "2.6", title: "Adam" },
-              { id: "bias-variance",    number: "2.7", title: "Bias-Variance" },
-              { id: "synthesis",        number: "2.8", title: "Synthesis" },
+              { id: "paradigms",   number: "2.1", title: "Five Paradigms" },
+              { id: "pipeline",    number: "2.2", title: "Training Stages" },
+              { id: "rl-taxonomy", number: "2.3", title: "RL Family Tree" },
             ],
           },
           {
             id: "ch-3",
             number: "3",
+            title: "Equations & Loss Surfaces",
+            subchapters: [
+              { id: "losses",           number: "3.0", title: "Losses in the Wild" },
+              { id: "cross-entropy",    number: "3.1", title: "Cross-Entropy" },
+              { id: "softmax",          number: "3.2", title: "Softmax" },
+              { id: "kl",               number: "3.3", title: "KL Divergence" },
+              { id: "connections",      number: "3.4", title: "Connections" },
+              { id: "gradient-descent", number: "3.5", title: "Gradient Descent" },
+              { id: "adam",             number: "3.6", title: "Adam" },
+              { id: "bias-variance",    number: "3.7", title: "Bias-Variance" },
+              { id: "synthesis",        number: "3.8", title: "Synthesis" },
+            ],
+          },
+          {
+            id: "ch-4",
+            number: "4",
             title: "Neural Network Components",
             subchapters: [
-              { id: "architecture", number: "3.1", title: "Architecture" },
-              { id: "activations", number: "3.2", title: "Activations" },
-              { id: "normalization", number: "3.3", title: "Normalization" },
-              { id: "regularization", number: "3.4", title: "Regularization" },
-              { id: "optimizers", number: "3.5", title: "Optimizers" },
-              { id: "lr-schedules", number: "3.6", title: "Learning Rate Schedules" },
-              { id: "initialization", number: "3.7", title: "Initialization" },
+              { id: "architecture", number: "4.1", title: "Architecture" },
+              { id: "activations", number: "4.2", title: "Activations" },
+              { id: "normalization", number: "4.3", title: "Normalization" },
+              { id: "regularization", number: "4.4", title: "Regularization" },
+              { id: "optimizers", number: "4.5", title: "Optimizers" },
+              { id: "lr-schedules", number: "4.6", title: "Learning Rate Schedules" },
+              { id: "initialization", number: "4.7", title: "Initialization" },
+            ],
+          },
+          {
+            id: "ch-5",
+            number: "5",
+            title: "Evaluation Fundamentals",
+            subchapters: [
+              { id: "splits",      number: "5.1", title: "The three sets" },
+              { id: "kfold",       number: "5.2", title: "k-fold CV" },
+              { id: "variants",    number: "5.3", title: "Stratified · time · group" },
+              { id: "matrix",      number: "5.4", title: "The confusion matrix" },
+              { id: "imbalance",   number: "5.5", title: "Why accuracy lies" },
+              { id: "rocpr",       number: "5.6", title: "ROC vs PR" },
+              { id: "calibration", number: "5.7", title: "Calibration" },
+              { id: "thread",      number: "5.8", title: "The unified thread" }
             ],
           },
         ],
       },
       { id: "builds", number: "02", title: "Build Block" },
-      { id: "exit",   number: "03", title: "Exit Criteria" },
     ],
   },
   {
@@ -142,7 +157,26 @@ export const ROADMAP: RoadmapNode[] = [
     accent: "blue",
     accentVar: "--accent-p2",
     builds: 6,
-    sections: EMPTY_SECTIONS,
+    sections: [
+      {
+        id: "theory",
+        number: "01",
+        title: "Theory",
+        chapters: [
+          {
+            id: "ch-1",
+            number: "1",
+            title: "Vectors, Weights, Biases — and the Loop That Trains Them",
+            subchapters: [
+              { id: "transformer", number: "1.1", title: "The Transformer at a Glance" },
+              { id: "mlp",         number: "1.2", title: "Inside the MLP" },
+              { id: "backprop",    number: "1.3", title: "Backpropagation" },
+            ],
+          },
+        ],
+      },
+      { id: "builds", number: "02", title: "Build Block" },
+    ],
   },
   {
     id: "phase-3",
