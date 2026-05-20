@@ -269,7 +269,7 @@ function ParametersVisual() {
 
 export default function SectionMLP() {
   return (
-    <Section id="mlp" eyebrow="1.2 · Inside the MLP" title="Inside the MLP" kicker="The pink block inside every transformer is a multi-layer perceptron. To understand it, you only need four pieces — vectors, weights, biases, and the count of parameters they form together.">
+    <Section id="mlp" eyebrow="1.3 · Inside the MLP" title="Inside the MLP" kicker="The pink block inside every transformer is a multi-layer perceptron. To understand it, you only need four pieces — vectors, weights, biases, and the count of parameters they form together.">
       <Sub title="A vector">
         <Para>Everything that flows through a neural network is a vector — an ordered list of numbers. The input is a vector, every hidden layer's activations are a vector, the output is a vector. The dimensionality (how long the list is) is what people mean when they say "d_model = 4096".</Para>
         <VectorVisual />

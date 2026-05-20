@@ -2,6 +2,7 @@
 
 import { ChapterDivider } from "@/components/book/ChapterDivider";
 import SectionTransformer from "./ch1/TransformerSection";
+import SectionTransformerLayers from "./ch1/TransformerLayersSection";
 import SectionMLP from "./ch1/MLPSection";
 import SectionBackprop from "./ch1/BackpropSection";
 
@@ -119,6 +120,7 @@ export default function Phase2TheoryMap() {
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       <ChapterDivider number="1" title="Vectors, Weights, Biases — and the Loop That Trains Them" accentVar={ACCENT} />
       <SectionTransformer />
+      <SectionTransformerLayers />
       <SectionMLP />
       <SectionBackprop />
     </div>

@@ -463,7 +463,7 @@ function LossCurveVisual() {
 
 export default function SectionBackprop() {
   return (
-    <Section id="backprop" eyebrow="1.3 · Backpropagation" title="Backpropagation — how the parameters get learned" kicker="An untrained MLP outputs garbage. Backpropagation is the algorithm that turns garbage into competence by gradually adjusting every weight and every bias.">
+    <Section id="backprop" eyebrow="1.4 · Backpropagation" title="Backpropagation — how the parameters get learned" kicker="An untrained MLP outputs garbage. Backpropagation is the algorithm that turns garbage into competence by gradually adjusting every weight and every bias.">
       <Para>
         Learning is a three-step loop repeated trillions of times: <em>predict, measure, correct</em>. Backpropagation encompasses this entire sequence. First, a <strong>forward pass</strong> feeds inputs through layers to produce a prediction. Second, a <strong>loss function</strong> measures how wrong that prediction was compared to the target. Finally, a <strong>backward pass</strong> applies the chain rule of calculus in reverse to calculate gradients, letting the optimizer nudge each weight and bias toward correctness.
       </Para>
