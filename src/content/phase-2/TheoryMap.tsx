@@ -9,6 +9,18 @@ import SectionArchitectures from "./ch1/ArchitectureSection";
 import SectionMLP from "./ch1/MLPSection";
 import SectionBackprop from "./ch1/BackpropSection";
 
+import SectionICL from "./ch2/ICLSection";
+import SectionComputeDepth from "./ch2/ComputeDepthSection";
+import SectionSelfConsistency from "./ch2/SelfConsistencySection";
+import SectionICLMethods from "./ch2/ICLMethodsSection";
+import SectionTreeOfThoughts from "./ch2/TreeOfThoughtsSection";
+
+import SectionArchitectureTriangle from "./ch3/ArchitectureTriangleSection";
+import SectionBiEncoder from "./ch3/BiEncoderSection";
+import SectionTwoStage from "./ch3/TwoStageSection";
+import SectionColBERT from "./ch3/ColBERTSection";
+import SectionMatryoshka from "./ch3/MatryoshkaSection";
+
 const ACCENT = "--accent-p2";
 
 const STYLES = `
@@ -129,6 +141,16 @@ const STYLES = `
     transform: translateY(0);
   }
 
+  .p2-btn-pill:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  /* Range input accent */
+  input[type="range"] {
+    accent-color: var(--accent-p2);
+  }
+
   .p2-btn-pill-active {
     background: linear-gradient(135deg, var(--accent-p2) 0%, var(--accent-p5) 100%);
     border-color: var(--accent-p2);
@@ -157,6 +179,7 @@ export default function Phase2TheoryMap() {
   return (
     <div className="p2-root space-y-12">
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
+
       <ChapterDivider number="1" title="Vectors, Weights, Biases — and the Loop That Trains Them" accentVar={ACCENT} />
       <SectionTransformer />
       <SectionAttentionPipeline />
@@ -165,6 +188,20 @@ export default function Phase2TheoryMap() {
       <SectionArchitectures />
       <SectionMLP />
       <SectionBackprop />
+
+      <ChapterDivider number="2" title="Prompting Techniques" accentVar={ACCENT} />
+      <SectionICL />
+      <SectionComputeDepth />
+      <SectionSelfConsistency />
+      <SectionICLMethods />
+      <SectionTreeOfThoughts />
+
+      <ChapterDivider number="3" title="Embeddings: The Geometry of Meaning" accentVar={ACCENT} />
+      <SectionArchitectureTriangle />
+      <SectionBiEncoder />
+      <SectionTwoStage />
+      <SectionColBERT />
+      <SectionMatryoshka />
     </div>
   );
 }
